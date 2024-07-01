@@ -5,7 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 import styles from './page.module.sass';
 import { UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebase from "./firebase";
-import createUser from "./createUser";
+import { createUser, updateUserToken } from "./serverFunctions";
 import { useRouter } from "next/navigation";
 
 interface UrlSelectorProps {
@@ -67,11 +67,8 @@ export default function LoginForm() {
     }
 
     const result = await createUser(firebaseUser.user.email, firebaseToken);
-    if (result.type === 'AlreadyExistsError') {
-      setError('AlreadyExistsError');
-      return;
-    } else if (result.type === 'UnknownError') {
-      setError('UnknownError');
+    if (result.type !== 'Success') {
+      setError(result.type);
       return;
     }
 
@@ -92,7 +89,17 @@ export default function LoginForm() {
     }
 
     const auth = getAuth(firebase);
-    await signInWithEmailAndPassword(auth, username, password);
+    const firebaseUser = await signInWithEmailAndPassword(auth, username, password);
+    const firebaseToken = await firebaseUser.user.getIdToken();
+    if (!firebaseUser.user.email) {
+      setError('NoEmailError');
+      return;
+    }
+    const result = await updateUserToken(firebaseUser.user.email, firebaseToken);
+    if (result.type !== 'Success') {
+      setError(result.type);
+      return;
+    }
     router.replace('/dashboard');
   }
 
