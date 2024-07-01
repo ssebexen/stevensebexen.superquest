@@ -1,0 +1,29 @@
+@use '../app/globals'
+  
+.navBar
+  display: flex
+  flex-direction: row
+  padding: 8px 16px
+  gap: 16px
+  font-size: 20px
+  justify-content: space-between
+
+.navBarLeft
+  display: flex
+  flex-direction: row
+  flex-grow: 1
+
+.navBarRight
+  @extend .navBarLeft
+  justify-content: end
+
+.navBarOption
+  padding: 8px 12px
+  flex-basis: 100px
+  text-align: center
+  cursor: pointer
+  border-radius: 8px
+  transition: background-color 150ms ease-in-out
+
+.navBarOption:hover
+  background-color: globals.$accent-color

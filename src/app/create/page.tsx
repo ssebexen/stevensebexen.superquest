@@ -1,8 +1,8 @@
+import NavBar from "~/components/NavBar";
 import styles from './page.module.sass';
-import NavBar from '~/components/NavBar';
-import AuthRedirect from '~/components/AuthRedirect';
+import AuthRedirect from "~/components/AuthRedirect";
 
-export default function Dashboard() {
+export default function Create() {
   return (
     <main className={styles.main}>
       <AuthRedirect />
