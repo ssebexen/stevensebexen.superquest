@@ -1,0 +1,56 @@
+$dark-color: #2d2d2d
+$accent-color: #f85a99
+$secondary-color: #a0a0a0
+  
+.main
+  background-color: $dark-color
+  height: 100vh
+
+  h1
+    padding: 48px 0px
+    text-align: center
+
+.formLogin
+  display: flex
+  flex-direction: column
+  gap: 16px
+  align-items: center
+  height: 100%
+
+.textField
+  font-size: 24px
+  width: 80%
+  max-width: 400px
+  border-radius: 8px
+  border-style: solid
+  padding: 2px 8px
+  
+.submitButton
+  background-color: #434343
+  font-size: 24px
+  padding: 4px 16px
+  border-style: none
+  border-radius: 8px
+  transition: background-color 150ms ease-in-out
+  cursor: pointer
+
+.submitButton:hover
+  background-color: $accent-color
+
+.formUrlSelector
+  display: flex
+  flex-direction: row
+  gap: 8px
+  font-size: 24px
+  justify-content: center
+  width: 100%
+
+  .dark
+    color: $secondary-color
+    cursor: default
+  
+  .accent
+    color: $accent-color
+
+.formUrlSelectorOption
+  cursor: pointer
