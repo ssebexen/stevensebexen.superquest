@@ -1,9 +1,7 @@
-$dark-color: #2d2d2d
-$accent-color: #f85a99
-$secondary-color: #a0a0a0
+@use 'globals'
   
 .main
-  background-color: $dark-color
+  background-color: globals.$dark-color
   height: 100vh
 
   h1
@@ -35,7 +33,7 @@ $secondary-color: #a0a0a0
   cursor: pointer
 
 .submitButton:hover
-  background-color: $accent-color
+  background-color: globals.$accent-color
 
 .formUrlSelector
   display: flex
@@ -46,11 +44,11 @@ $secondary-color: #a0a0a0
   width: 100%
 
   .dark
-    color: $secondary-color
+    color: globals.$secondary-color
     cursor: default
   
   .accent
-    color: $accent-color
+    color: globals.$accent-color
 
 .formUrlSelectorOption
   cursor: pointer
