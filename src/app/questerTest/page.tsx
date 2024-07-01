@@ -1,4 +1,5 @@
-import Quester, { Texture } from "~/components/Quester";
+import Quester from "~/components/Quester";
+import { Texture } from "~/components/texture";
 
 export default function QuesterTest() {
   const texture: Texture = {
