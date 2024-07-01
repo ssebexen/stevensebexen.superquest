@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import firebase from "~/app/firebase";
 
-export default function useAuthRedirect() {
+export default function AuthRedirect() {
   const router = useRouter();
 
   useEffect(() => {
