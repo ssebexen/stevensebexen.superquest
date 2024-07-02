@@ -2,7 +2,6 @@
 
 import NavBar from "~/components/NavBar";
 import styles from './page.module.sass';
-import AuthRedirect from "~/components/AuthRedirect";
 import { PIXEL_DEFAULT, QuesterEdit } from "~/components/Quester";
 import { Texture, hexToPixel, defaultTexture } from "~/utils/texture";
 import { ChangeEvent, useRef, useState } from "react";
@@ -12,6 +11,7 @@ import firebase from "../firebase";
 import { useRouter } from "next/navigation";
 import PencilSVG from '~/../public/pencil.svg';
 import EraserSVG from '~/../public/eraser.svg';
+import ProtectedRoute from "~/components/ProtectedRoute";
 
 interface ColorPickerProps {
   onColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -109,19 +109,20 @@ export default function Create() {
   }
   
   return (
-    <main className={styles.main} onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} >
-      <AuthRedirect />
-      <NavBar />
-      <div className={styles.editFrame}>
-        <QuesterEdit texture={texture} pixelSize={PIXEL_DEFAULT} onPixelClicked={onPixelClicked} mouseDown={mouseDown} />
-        <div className={styles.toolbar}>
-          <PencilTool activeTool={activeTool} toolName="pencil" onSelected={() => setActiveTool('pencil')}/>
-          <EraserTool activeTool={activeTool} toolName="eraser" onSelected={() => setActiveTool('eraser')}/>
-          <ColorPicker onColorChange={onColorChange} color={color} />
+    <ProtectedRoute>
+      <main className={styles.main} onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} >
+        <NavBar />
+        <div className={styles.editFrame}>
+          <QuesterEdit texture={texture} pixelSize={PIXEL_DEFAULT} onPixelClicked={onPixelClicked} mouseDown={mouseDown} />
+          <div className={styles.toolbar}>
+            <PencilTool activeTool={activeTool} toolName="pencil" onSelected={() => setActiveTool('pencil')}/>
+            <EraserTool activeTool={activeTool} toolName="eraser" onSelected={() => setActiveTool('eraser')}/>
+            <ColorPicker onColorChange={onColorChange} color={color} />
+          </div>
+          <p className={styles.done} onClick={done}>Create Quester</p>
         </div>
-        <p className={styles.done} onClick={done}>Create Quester</p>
-      </div>
-      <p>{error}</p>
-    </main>
+        <p>{error}</p>
+      </main>
+    </ProtectedRoute>
   )
 }
