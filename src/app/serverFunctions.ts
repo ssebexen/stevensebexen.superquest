@@ -15,8 +15,10 @@ export async function createUser(userName: string, firebaseToken: string) {
     });
   } catch (e) {
     if (e instanceof PrismaClientKnownRequestError) {
+      console.error(e);
       return ({type: 'AlreadyExistsError', message: 'That username or token already exists.'});
     } else {
+      console.error(e);
       return ({type: 'UnknownError', message: 'An unexpected error has occured.'});
     }
   }
@@ -39,6 +41,7 @@ export async function updateUserToken(userName: string, firebaseToken: string) {
       }
     });
   } catch (e) {
+    console.error(e);
     return ({type: 'UnknownError', message: 'An unexpected error has occured.'})
   }
 
