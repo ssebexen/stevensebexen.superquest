@@ -8,7 +8,7 @@ import { getAuth } from "firebase-admin/auth";
 import firebaseAdmin from "./firebaseAdmin";
 
 export async function createUser(firebaseToken: string) {
-  const user = await getAuth(firebaseAdmin()).verifyIdToken(firebaseToken);
+  const user = await getAuth(firebaseAdmin).verifyIdToken(firebaseToken);
   if (!user.email) {
     return {type: 'NoEmailError', message: 'user.email is undefined.'};
   }
@@ -35,7 +35,7 @@ export async function createQuester(firebaseToken: string, texture: Texture) {
     return ({type: 'InvalidTextureError', message: 'Provided texture is invalid.'});
   }
 
-  const user = await getAuth(firebaseAdmin()).verifyIdToken(firebaseToken);
+  const user = await getAuth(firebaseAdmin).verifyIdToken(firebaseToken);
   if (!user.email) {
     return {type: 'AuthError', message: 'user.email is undefined.'};
   }
@@ -84,7 +84,7 @@ export async function getUser(userName: string) {
 }
 
 export async function updateUserProfile(firebaseToken: string, displayName: string, profile: string) {
-  const user = await getAuth(firebaseAdmin()).verifyIdToken(firebaseToken);
+  const user = await getAuth(firebaseAdmin).verifyIdToken(firebaseToken);
   if (!user.email) {
     return {type: 'AuthError', message: 'user.email is undefined'};
   }

@@ -1,10 +1,7 @@
-import { initializeApp } from 'firebase-admin';
-import firebaseConfig from './firebaseConfig';
 import { getApps } from 'firebase-admin/app';
+import firebaseConfig from './firebaseConfig';
+import { initializeApp } from 'firebase-admin';
 
-function firebaseAdmin() {
-  const apps = getApps();
-  return apps.length === 0 ? initializeApp(firebaseConfig) : apps[0];
-}
+const firebaseAdmin = getApps()[0] ?? initializeApp(firebaseConfig);
 
 export default firebaseAdmin;
