@@ -17,4 +17,15 @@ model User {
   id Int @id @default(autoincrement())
   userName String @unique
   firebaseToken String @unique
+
+  questers Quester[]
+}
+
+model Quester {
+  id Int @id @default(autoincrement())
+  userId Int
+  name String
+  textureData String
+
+  user User @relation(fields: [userId], references: [id])
 }

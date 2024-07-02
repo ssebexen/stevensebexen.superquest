@@ -1,0 +1,41 @@
+@use '../globals'
+  
+.main
+  height: 100vh
+  background-color: globals.$dark-color
+
+.editFrame
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.colorPickerOuter
+  display: flex
+  justify-content: center
+  align-items: center
+  margin: 4px
+  width: 36px
+  height: 36px
+  background-color: white
+  border-radius: 100%
+  border: solid 2px globals.$accent-color
+
+.colorPickerInner
+  width: 26px
+  height: 26px
+  border-radius: 100%
+
+.done
+  font-size: 20px
+  cursor: pointer
+  transition: background-color 150ms ease-in-out
+  padding: 4px 12px
+  border-radius: 8px
+
+.done:hover
+  background-color: globals.$accent-color
+
+.hiddenInput
+  visibility: hidden
+  width: 0px
+  height: 0px
