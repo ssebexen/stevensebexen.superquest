@@ -19,7 +19,6 @@ interface ColorPickerProps {
 }
 function ColorPicker(props: ColorPickerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-
   return (
     <>
       <div className={styles.toolbarItem} onClick={() => inputRef.current?.click()}>
@@ -59,7 +58,6 @@ function EraserTool (props: EraserToolProps) {
 export default function Create() {
   const [texture, setTexture] = useState<Texture>(defaultTexture());
   const [color, setColor] = useState<string>('#1a1a1a');
-  const [alpha, setAlpha] = useState<number>(1.0);
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const router = useRouter();
@@ -68,7 +66,7 @@ export default function Create() {
   function onPixelClicked(index: number) {
     switch (activeTool) {
       case "pencil": {
-        const data = texture.data.with(index, hexToPixel(color, alpha));
+        const data = texture.data.with(index, hexToPixel(color, 1));
         const texture0 = {
           data
         };
