@@ -4,13 +4,14 @@ import NavBar from "~/components/NavBar";
 import styles from './page.module.sass';
 import AuthRedirect from "~/components/AuthRedirect";
 import { PIXEL_DEFAULT, QuesterEdit } from "~/components/Quester";
-import { Pixel, Texture } from "~/components/texture";
-import { defaultTexture } from "~/components/texture";
-import { ChangeEvent, MutableRefObject, useRef, useState } from "react";
+import { Texture, hexToPixel, defaultTexture } from "~/utils/texture";
+import { ChangeEvent, useRef, useState } from "react";
 import { createQuester } from "../serverFunctions";
 import { getAuth } from "firebase/auth";
 import firebase from "../firebase";
 import { useRouter } from "next/navigation";
+import PencilSVG from '~/../public/pencil.svg';
+import EraserSVG from '~/../public/eraser.svg';
 
 interface ColorPickerProps {
   onColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -21,34 +22,71 @@ function ColorPicker(props: ColorPickerProps) {
 
   return (
     <>
-      <div className={styles.colorPickerOuter} onClick={() => inputRef.current?.click()}>
-        <div className={styles.colorPickerInner} style={{backgroundColor: props.color}} />
+      <div className={styles.toolbarItem} onClick={() => inputRef.current?.click()}>
+        <div className={styles.colorPicker} style={{backgroundColor: props.color}} />
       </div>
       <input className={styles.hiddenInput} type='color' ref={inputRef} onChange={props.onColorChange} value={props.color} />
     </>
   )
 }
 
+interface PencilToolProps {
+  activeTool: string;
+  toolName: string;
+  onSelected: () => void;
+}
+function PencilTool (props: PencilToolProps) {
+  return (
+    <div className={styles.toolbarItem} onClick={props.onSelected}>
+      <PencilSVG className={props.activeTool === props.toolName ? styles.active : ''}/>
+    </div>
+  )
+}
+
+interface EraserToolProps {
+  activeTool: string;
+  toolName: string;
+  onSelected: () => void;
+}
+function EraserTool (props: EraserToolProps) {
+  return (
+    <div className={styles.toolbarItem} onClick={props.onSelected}>
+      <EraserSVG className={props.activeTool === props.toolName ? styles.active : ''}/>
+    </div>
+  )
+}
+
 export default function Create() {
   const [texture, setTexture] = useState<Texture>(defaultTexture());
   const [color, setColor] = useState<string>('#1a1a1a');
+  const [alpha, setAlpha] = useState<number>(1.0);
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const router = useRouter();
+  const [activeTool, setActiveTool] = useState<string>('pencil');
 
   function onPixelClicked(index: number) {
-    function hexToPixel(hex: string): Pixel {
-      const r = parseInt(hex.slice(1,3), 16);
-      const g = parseInt(hex.slice(3,5), 16);
-      const b = parseInt(hex.slice(5), 16);
-      return [r, g, b];
-    }
-    const data = texture.data.with(index, hexToPixel(color));
-    const texture0 = {
-      data
-    };
+    switch (activeTool) {
+      case "pencil": {
+        const data = texture.data.with(index, hexToPixel(color, alpha));
+        const texture0 = {
+          data
+        };
 
-    setTexture(texture0);
+        setTexture(texture0);
+        break;
+      }
+    
+      case "eraser": {
+        const data = texture.data.with(index, [0, 0, 0, 0])
+        const texture0 = {
+          data
+        };
+
+        setTexture(texture0);
+        break;
+      }
+    }
   }
 
   function onColorChange(e: ChangeEvent<HTMLInputElement>) {
@@ -78,7 +116,11 @@ export default function Create() {
       <NavBar />
       <div className={styles.editFrame}>
         <QuesterEdit texture={texture} pixelSize={PIXEL_DEFAULT} onPixelClicked={onPixelClicked} mouseDown={mouseDown} />
-        <ColorPicker onColorChange={onColorChange} color={color} />
+        <div className={styles.toolbar}>
+          <PencilTool activeTool={activeTool} toolName="pencil" onSelected={() => setActiveTool('pencil')}/>
+          <EraserTool activeTool={activeTool} toolName="eraser" onSelected={() => setActiveTool('eraser')}/>
+          <ColorPicker onColorChange={onColorChange} color={color} />
+        </div>
         <p className={styles.done} onClick={done}>Create Quester</p>
       </div>
       <p>{error}</p>

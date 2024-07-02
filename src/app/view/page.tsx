@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { getQuesters } from "../serverFunctions";
 import { Quester as QuesterT } from "@prisma/client";
 import { PIXEL_DEFAULT, Quester } from "~/components/Quester";
-import { validateTexture } from "~/components/texture";
+import { validateTexture } from "~/utils/texture";
 
 export default function View() {
   const [questers, setQuesters] = useState<QuesterT[]>([]);
