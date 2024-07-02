@@ -7,11 +7,6 @@ const __dirname = path.dirname(__filename); // get the name of the directory
 
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-  },
-
-};
+const nextConfig = {};
 
 export default nextConfig;
