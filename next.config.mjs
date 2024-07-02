@@ -9,8 +9,10 @@ const __dirname = path.dirname(__filename); // get the name of the directory
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
+    const fileLoaderRule = config.module.rules.find((rule) =>
+      rule.test?.test?.('.svg'),
+    )
     if (!fileLoaderRule) return config; // Early return if no SVG rule is found
-      rule.test?.test?.('.svg')
 
     config.module.rules.push(
       // Reapply the existing rule, but only for svg imports ending in ?url
