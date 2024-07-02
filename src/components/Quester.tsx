@@ -4,8 +4,8 @@ export const PIXEL_DEFAULT = 25;
 
 import { useEffect, useRef, useState } from "react";
 import styles from './quester.module.sass';
-import { validateTexture, textureSize, rgbAt } from "./texture";
-import { Texture } from "./texture";
+import { validateTexture, textureSize, rgbaAt } from "../utils/texture";
+import { Texture } from "../utils/texture";
 
 interface QuesterEditProps {
   texture: Texture;
@@ -30,7 +30,7 @@ export function QuesterEdit(props: QuesterEditProps) {
             <div
               key={i}
               className={styles.pixelEdit}
-              style={{width: props.pixelSize, height: props.pixelSize, backgroundColor: rgbAt(props.texture, i)}}
+              style={{width: props.pixelSize, height: props.pixelSize, backgroundColor: rgbaAt(props.texture, i)}}
               onMouseMove={() => props.mouseDown && props.onPixelClicked(i)}
               onMouseDown={() => props.onPixelClicked(i)}
             />
@@ -61,7 +61,7 @@ export function Quester(props: QuesterProps) {
           {Array(props.texture.data.length).fill(0).map((_, i) =>
             <div
               key={i}
-              style={{width: props.pixelSize, height: props.pixelSize, backgroundColor: rgbAt(props.texture, i)}}
+              style={{width: props.pixelSize, height: props.pixelSize, backgroundColor: rgbaAt(props.texture, i)}}
             />
           )}
         </div>

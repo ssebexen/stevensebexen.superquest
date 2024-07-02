@@ -2,8 +2,8 @@
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import prisma from "./prisma";
-import { Texture } from "~/components/texture";
-import { validateTexture } from "~/components/texture";
+import { Texture } from "~/utils/texture";
+import { validateTexture } from "~/utils/texture";
 
 export async function createUser(userName: string, firebaseToken: string) {
   try {
