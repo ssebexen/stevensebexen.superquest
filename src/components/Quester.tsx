@@ -25,7 +25,7 @@ export function QuesterEdit(props: QuesterEditProps) {
   return (
     <>
       {valid
-        ? <div className={styles.quester} style={{width: boxSize, height: boxSize}}>
+        ? <div className={styles.quester + ' ' + styles.checkerboard} style={{width: boxSize, height: boxSize}}>
           {Array(props.texture.data.length).fill(0).map((_, i) =>
             <div
               key={i}

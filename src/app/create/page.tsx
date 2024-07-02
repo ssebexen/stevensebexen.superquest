@@ -2,16 +2,16 @@
 
 import NavBar from "~/components/NavBar";
 import styles from './page.module.sass';
-import AuthRedirect from "~/components/AuthRedirect";
 import { PIXEL_DEFAULT, QuesterEdit } from "~/components/Quester";
 import { Texture, hexToPixel, defaultTexture } from "~/utils/texture";
 import { ChangeEvent, useRef, useState } from "react";
 import { createQuester } from "../serverFunctions";
 import { getAuth } from "firebase/auth";
-import firebase from "../firebase";
 import { useRouter } from "next/navigation";
 import PencilSVG from '~/../public/pencil.svg';
 import EraserSVG from '~/../public/eraser.svg';
+import ProtectedRoute from "~/components/ProtectedRoute";
+import firebase from "../firebase";
 
 interface ColorPickerProps {
   onColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -19,7 +19,6 @@ interface ColorPickerProps {
 }
 function ColorPicker(props: ColorPickerProps) {
   const inputRef = useRef<HTMLInputElement>(null);
-
   return (
     <>
       <div className={styles.toolbarItem} onClick={() => inputRef.current?.click()}>
@@ -59,7 +58,6 @@ function EraserTool (props: EraserToolProps) {
 export default function Create() {
   const [texture, setTexture] = useState<Texture>(defaultTexture());
   const [color, setColor] = useState<string>('#1a1a1a');
-  const [alpha, setAlpha] = useState<number>(1.0);
   const [mouseDown, setMouseDown] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const router = useRouter();
@@ -68,7 +66,7 @@ export default function Create() {
   function onPixelClicked(index: number) {
     switch (activeTool) {
       case "pencil": {
-        const data = texture.data.with(index, hexToPixel(color, alpha));
+        const data = texture.data.with(index, hexToPixel(color, 1));
         const texture0 = {
           data
         };
@@ -111,19 +109,20 @@ export default function Create() {
   }
   
   return (
-    <main className={styles.main} onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} >
-      <AuthRedirect />
-      <NavBar />
-      <div className={styles.editFrame}>
-        <QuesterEdit texture={texture} pixelSize={PIXEL_DEFAULT} onPixelClicked={onPixelClicked} mouseDown={mouseDown} />
-        <div className={styles.toolbar}>
-          <PencilTool activeTool={activeTool} toolName="pencil" onSelected={() => setActiveTool('pencil')}/>
-          <EraserTool activeTool={activeTool} toolName="eraser" onSelected={() => setActiveTool('eraser')}/>
-          <ColorPicker onColorChange={onColorChange} color={color} />
+    <ProtectedRoute>
+      <main onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} >
+        <NavBar />
+        <div className={styles.editFrame}>
+          <QuesterEdit texture={texture} pixelSize={PIXEL_DEFAULT} onPixelClicked={onPixelClicked} mouseDown={mouseDown} />
+          <div className={styles.toolbar}>
+            <PencilTool activeTool={activeTool} toolName="pencil" onSelected={() => setActiveTool('pencil')}/>
+            <EraserTool activeTool={activeTool} toolName="eraser" onSelected={() => setActiveTool('eraser')}/>
+            <ColorPicker onColorChange={onColorChange} color={color} />
+          </div>
+          <p className={styles.done} onClick={done}>Create Quester</p>
         </div>
-        <p className={styles.done} onClick={done}>Create Quester</p>
-      </div>
-      <p>{error}</p>
-    </main>
+        <p>{error}</p>
+      </main>
+    </ProtectedRoute>
   )
 }

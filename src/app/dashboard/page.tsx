@@ -1,12 +1,15 @@
+import ProtectedRoute from '~/components/ProtectedRoute';
 import styles from './page.module.sass';
 import NavBar from '~/components/NavBar';
-import AuthRedirect from '~/components/AuthRedirect';
+import UserCard from '~/components/UserCard';
 
 export default function Dashboard() {
   return (
-    <main className={styles.main}>
-      <AuthRedirect />
-      <NavBar />
-    </main>
+    <ProtectedRoute>
+      <main>
+        <NavBar />
+        <UserCard />
+      </main>
+    </ProtectedRoute>
   )
 }

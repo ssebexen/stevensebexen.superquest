@@ -3,9 +3,9 @@
 import { FormEvent, useEffect, useState } from "react";
 
 import styles from './page.module.sass';
-import { UserCredential, createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebase from "./firebase";
-import { createUser, updateUserToken } from "./serverFunctions";
+import { createUser } from "./serverFunctions";
 import { useRouter } from "next/navigation";
 
 interface UrlSelectorProps {
@@ -61,12 +61,8 @@ export default function LoginForm() {
 
     const firebaseUser = await createUserWithEmailAndPassword(auth, username, password);
     const firebaseToken = await firebaseUser.user.getIdToken();
-    if (!firebaseUser.user.email) {
-      setError('EmailError');
-      return;
-    }
 
-    const result = await createUser(firebaseUser.user.email, firebaseToken);
+    const result = await createUser(firebaseToken);
     if (result.type !== 'Success') {
       setError(result.type);
       return;
@@ -93,11 +89,6 @@ export default function LoginForm() {
     const firebaseToken = await firebaseUser.user.getIdToken();
     if (!firebaseUser.user.email) {
       setError('NoEmailError');
-      return;
-    }
-    const result = await updateUserToken(firebaseUser.user.email, firebaseToken);
-    if (result.type !== 'Success') {
-      setError(result.type);
       return;
     }
     router.replace('/dashboard');
