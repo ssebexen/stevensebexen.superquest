@@ -1,7 +1,7 @@
 import { getApps } from 'firebase-admin/app';
 import firebaseConfig from './firebaseConfig';
-import { initializeApp } from 'firebase-admin';
+import admin from 'firebase-admin';
 
-const firebaseAdmin = getApps()[0] ?? initializeApp(firebaseConfig);
+const firebaseAdmin = getApps()[0] ?? admin.initializeApp(firebaseConfig);
 
 export default firebaseAdmin;
