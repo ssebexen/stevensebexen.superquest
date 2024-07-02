@@ -31,7 +31,6 @@ export function validateTexture(texture: Texture): boolean {
 
   const sizeGuess = Math.sqrt(texture.data.length);
   if (sizeGuess % 1 !== 0 || sizeGuess > SIZE_MAX || sizeGuess < SIZE_MIN) {
-    console.log(sizeGuess);
     return false;
   }
 

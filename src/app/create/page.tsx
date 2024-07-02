@@ -7,11 +7,11 @@ import { Texture, hexToPixel, defaultTexture } from "~/utils/texture";
 import { ChangeEvent, useRef, useState } from "react";
 import { createQuester } from "../serverFunctions";
 import { getAuth } from "firebase/auth";
-import firebase from "../firebase";
 import { useRouter } from "next/navigation";
 import PencilSVG from '~/../public/pencil.svg';
 import EraserSVG from '~/../public/eraser.svg';
 import ProtectedRoute from "~/components/ProtectedRoute";
+import firebase from "../firebase";
 
 interface ColorPickerProps {
   onColorChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -110,7 +110,7 @@ export default function Create() {
   
   return (
     <ProtectedRoute>
-      <main className={styles.main} onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} >
+      <main onMouseDown={() => setMouseDown(true)} onMouseUp={() => setMouseDown(false)} >
         <NavBar />
         <div className={styles.editFrame}>
           <QuesterEdit texture={texture} pixelSize={PIXEL_DEFAULT} onPixelClicked={onPixelClicked} mouseDown={mouseDown} />

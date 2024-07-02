@@ -16,7 +16,8 @@ datasource db {
 model User {
   id Int @id @default(autoincrement())
   userName String @unique
-  firebaseToken String @unique
+  displayName String @default("Mysterious Adventurer")
+  profile String @default("I'm here to kick butt and chew bubblegum... and I'm all out of butt.")
 
   questers Quester[]
 }
@@ -25,7 +26,7 @@ model Quester {
   id Int @id @default(autoincrement())
   userId Int
   name String
-  textureData String
+  textureData String 
 
   user User @relation(fields: [userId], references: [id])
 }

@@ -2,9 +2,9 @@
 
 import { getAuth } from "firebase/auth";
 import { ReactElement } from "react";
-import firebase from "~/app/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/navigation";
+import firebase from "~/app/firebase";
 
 interface ProtectedRouteProps {
   children: ReactElement;

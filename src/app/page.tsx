@@ -3,8 +3,8 @@ import LoginForm from "./LoginForm";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <h1>Welcome to SuperQuest</h1>
+    <main>
+      <h1 className={styles.welcome}>Welcome to SuperQuest</h1>
       <LoginForm />
     </main>
   );

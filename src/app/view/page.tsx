@@ -21,7 +21,7 @@ export default function View() {
 
   return (
     <ProtectedRoute>
-      <main className={styles.main}>
+      <main>
         <NavBar />
         <div className={styles.gallery}>
           {
